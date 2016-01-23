@@ -2,8 +2,6 @@
 Django Tagging Select2
 ======================
 
-|travis-develop| |coverage-develop|
-
 This is my fork of django tagging https://github.com/Fantomas42/django-tagging but with added support for Select2 (>=v4.0.0)
 
 This is a generic tagging application for Django projects
