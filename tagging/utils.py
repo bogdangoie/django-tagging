@@ -8,6 +8,8 @@ from django.utils import six
 from django.db.models.query import QuerySet
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _
+from django.http import HttpResponse
+import json
 
 # Font size distribution algorithms
 LOGARITHMIC, LINEAR = 1, 2
@@ -265,3 +267,15 @@ def calculate_cloud(tags, steps=4, distribution=LOGARITHMIC):
                     tag.font_size = i + 1
                     font_set = True
     return tags
+
+
+class JSONViewMixin (object):
+    def json_response(self, data):
+        """Return an HttpResponse using the specified data as a JSON response.
+        @param data: data to render into the response
+        @type data: dict
+        @return: the JSON response
+        @rtype: HttpResponse
+        """
+        response_kwargs = {'content_type': 'application/json'}
+        return HttpResponse(json.dumps(data), **response_kwargs)

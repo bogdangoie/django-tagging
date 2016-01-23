@@ -7,11 +7,11 @@ from django.views.generic.list import ListView
 from django.utils.translation import ugettext as _
 from django.core.exceptions import ImproperlyConfigured
 
-from base.utils.json_view import JSONViewMixin
 from tagging.models import Tag
 from tagging.models import TaggedItem
 from tagging.utils import get_tag
 from tagging.utils import get_queryset_and_model
+from tagging.utils import JSONViewMixin
 
 
 class TaggedObjectList(ListView):
