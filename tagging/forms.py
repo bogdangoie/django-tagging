@@ -12,6 +12,8 @@ from tagging import settings
 from tagging.models import Tag
 from tagging.utils import parse_tag_input
 
+from six import string_types
+
 
 class TagAdminForm(forms.ModelForm):
     class Meta:
@@ -58,7 +60,7 @@ class TagWidgetSelect2(widgets.SelectMultiple):
 
     def render(self, name, value, attrs=None, choices=()):
         if value:
-            if isinstance(value, basestring):
+            if isinstance(value, string_types):
                 value = value.split(',')
             for val in value:
                 choices += ((val, val),)
