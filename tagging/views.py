@@ -103,8 +103,8 @@ class AjaxTagsListView(View, JSONViewMixin):
 
         if query:
             kwargs.update({'name__contains': query})
-            tags = list(Tag.objects.filter(**kwargs).values_list(
-                    'name', flat=True)[:limit])
+            tags = list(Tag.objects.filter(**kwargs).
+                        values_list('name', flat=True)[:limit])
         response = {'tags': tags}
         # return the response
         return self.json_response(dict(response))
