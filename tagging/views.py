@@ -2,10 +2,12 @@
 Tagging related views.
 """
 from django.http import Http404
+from django.views.generic import View
 from django.views.generic.list import ListView
 from django.utils.translation import ugettext as _
 from django.core.exceptions import ImproperlyConfigured
 
+from base.utils.json_view import JSONViewMixin
 from tagging.models import Tag
 from tagging.models import TaggedItem
 from tagging.utils import get_tag
@@ -76,3 +78,32 @@ class TaggedObjectList(ListView):
             context['related_tags'] = Tag.objects.related_for_model(
                 self.tag_instance, model, counts=self.related_tag_counts)
         return context
+
+
+class AjaxTagsListView(View, JSONViewMixin):
+    """
+    Ajax View that retrieves a list of tags that match a certain query
+    """
+
+    http_method_names = ['get']
+
+    def get(self, request, *args, **kwargs):
+        if not request.is_ajax():
+            raise Http404
+
+        def param(param_name, is_int=False):
+            try:
+                return int(request.GET[param_name]) if is_int else \
+                    request.GET[param_name]
+            except Exception:
+                return None
+        query = param('query')
+        limit = param('limit', True) or 10
+        tags = []
+
+        if query:
+            kwargs.update({'name__contains': query})
+            tags = list(Tag.objects.filter(**kwargs).values_list('name', flat=True)[:limit])
+        response = {'tags': tags}
+        # return the response
+        return self.json_response(dict(response))

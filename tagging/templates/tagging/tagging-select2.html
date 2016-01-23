@@ -1,0 +1,35 @@
+(function ($) {
+    $(document).ready(function () {
+        $('#id_{{name}}').select2({
+            placeholder: "Add a tag",
+            allowClear: true,
+            minimumInputLength: 2,
+            tokenSeparators: [","],
+            tags: true,
+            multiple:true,
+            ajax: {
+                type: 'GET',
+                url:"{% url 'get_tagging_list' %}",
+                dataType: undefined,
+                data: function (params) {
+                    return {
+                        query: params.term, // search term
+                        limit: 10
+                    };
+                },
+                processResults: function (data, params) {
+                    var page = params.page;
+                    var tags = data.tags || [];
+                    var tags_processed = [];
+                    for (var i=0;i<tags.length;i++){
+                        tags_processed.push({
+                        id: tags[i],
+                        text: tags[i]
+                        });
+                    }
+                    return {results: tags_processed};
+                }
+            }
+        });
+    });
+})(jQuery);

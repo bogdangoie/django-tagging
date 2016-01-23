@@ -1,6 +1,8 @@
 """
 A custom Model Field for tagging.
 """
+from copy import deepcopy
+
 from django.db.models import signals
 from django.db.models.fields import CharField
 from django.utils.translation import ugettext_lazy as _
@@ -8,7 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from tagging import settings
 from tagging.models import Tag
 from tagging.utils import edit_string_for_tags
-from tagging.forms import TagField as TagFormField
+from tagging.forms import TagField as TagFormField, TagFieldSelect2 as TagFormFieldSelect2, TagWidgetSelect2
 
 
 class TagField(CharField):
@@ -108,3 +110,14 @@ class TagField(CharField):
         defaults = {'form_class': TagFormField}
         defaults.update(kwargs)
         return super(TagField, self).formfield(**defaults)
+
+
+class TagFieldSelect2(TagField):
+    """
+    Custom TagField that utilises Select2 form and widget
+    """
+    def formfield(self, **kwargs):
+        defaults = deepcopy(kwargs)
+        defaults.update({'form_class': TagFormFieldSelect2,
+                         'widget':  TagWidgetSelect2})
+        return super(TagFieldSelect2, self).formfield(**defaults)
