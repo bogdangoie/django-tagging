@@ -10,7 +10,8 @@ from django.utils.translation import ugettext_lazy as _
 from tagging import settings
 from tagging.models import Tag
 from tagging.utils import edit_string_for_tags
-from tagging.forms import TagField as TagFormField, TagFieldSelect2 as TagFormFieldSelect2, TagWidgetSelect2
+from tagging.forms import TagField as TagFormField, TagFieldSelect2 as \
+    TagFormFieldSelect2, TagWidgetSelect2
 
 
 class TagField(CharField):

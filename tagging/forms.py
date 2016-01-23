@@ -43,16 +43,18 @@ class TagField(forms.CharField):
 
 class TagWidgetSelect2(widgets.SelectMultiple):
     """
-    Override of the standard Django HiddenInput to output the same field, but using slightly different
+    Override of the standard Django HiddenInput to output the same field, but
+    using slightly different
     HTML
     """
 
     class Media:
         css = {
-            'all': ('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css',)
+            'all': ('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/'
+                    'select2.min.css',)
         }
-        js = ('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.js',
-        )
+        js = ('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/'
+              'select2.js',)
 
     def render(self, name, value, attrs=None, choices=()):
         if value:
@@ -65,10 +67,10 @@ class TagWidgetSelect2(widgets.SelectMultiple):
             'style': 'width:80%;',
             'type': 'hidden'
         })
-        rendered = super(TagWidgetSelect2, self).render(name, value, attrs, choices)
-        rendered_template = get_template('tagging/tagging-select2.html').render(Context({
-                'name': name,
-            }))
+        rendered = super(TagWidgetSelect2, self).render(name, value, attrs,
+                                                        choices)
+        rendered_template = get_template('tagging/tagging-select2.html').\
+            render(Context({'name': name}))
         rendered += '\n<script type="text/javascript">\n'
         rendered += rendered_template
         rendered += '\n</script>\n'
