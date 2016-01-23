@@ -28,6 +28,7 @@ matrix:
     fast_finish: true
 install:
     - pip install -U setuptools
+    - pip install six
     - python bootstrap.py
     - ./bin/buildout versions:django=$DJANGO
     - sh -c "if [ '$DATABASE_ENGINE' = 'postgres' ];
